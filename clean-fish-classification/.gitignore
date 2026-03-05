@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.Trash/
+
+# Model files (large)
+*.pth
+*.pt
+*.h5
+*.ckpt
+
+# Data directories (large)
+fish_image/
+downloads/
+.gradio/
+
+# Test images
+*.jpeg
+*.jpg
+*.png
+test/
+
+# Logs and feedback
+*.log
+feedback.csv
