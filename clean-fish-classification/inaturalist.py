@@ -21,11 +21,10 @@ taxon_id = int(m.group(1)) if m else None
 if taxon_id is None:
     raise ValueError("Could not extract ID from URL")
 
-# --- Create a folder for this taxon ---
+
 taxon_folder = save_dir / f"taxon_{taxon_id}"
 taxon_folder.mkdir(parents=True, exist_ok=True)
 
-# --- Query iNaturalist API for observations that have photos ---
 api = "https://api.inaturalist.org/v1/observations"
 per_page = 30
 page = 1

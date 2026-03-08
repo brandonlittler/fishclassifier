@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.Trash/
+
+# Data directories (large, not needed for inference)
+fish_image/
+downloads/
+.gradio/
+
+# Test files
+*.jpeg
+*.jpg
+*.png
+test/
+test002.jpeg
+clownfish.jpeg
+
+# Logs and feedback
+*.log
+feedback.csv
+
+# Git
+.git/
+.gitignore
+
+# Training scripts (not needed for inference)
+train.py
+iterativenewtrain.py
+inaturalist.py
+predictiontest.py
+dataset.py
+
+# Note: docker/ directory is needed for docker/requirements.txt during build

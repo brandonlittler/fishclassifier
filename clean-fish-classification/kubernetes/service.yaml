@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fish-classifier-service
+  namespace: fish-classifier
+  labels:
+    app: fish-classifier
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7860
+    targetPort: 7860
+    protocol: TCP
+    name: http
+  selector:
+    app: fish-classifier
+  sessionAffinity: None
