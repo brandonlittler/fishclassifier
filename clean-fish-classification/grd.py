@@ -31,12 +31,12 @@ try:
             # Remove classifier weights if size doesn't match (for class expansion)
             del old_state['backbone.classifier.1.weight']
             del old_state['backbone.classifier.1.bias']
-            print(f"⚠️  Model has {old_num_classes} classes, but labels has {len(labels)}. Classifier will be randomly initialized.")
+            print(f" Model has {old_num_classes} classes, but labels has {len(labels)}. Classifier will be randomly initialized.")
     
     model.load_state_dict(old_state, strict=False)
-    print(f"✅ Model loaded successfully with {len(labels)} classes")
+    print(f" Model loaded successfully with {len(labels)} classes")
 except Exception as e:
-    print(f"⚠️  Error loading model: {e}")
+    print(f" Error loading model: {e}")
     print(f"   Model will use randomly initialized weights")
 
 # set the model to evaluation mode
