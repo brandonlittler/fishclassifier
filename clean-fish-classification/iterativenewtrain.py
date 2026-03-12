@@ -67,7 +67,7 @@ try:
     if 'backbone.classifier.1.weight' in old_state:
         old_num_classes = old_state['backbone.classifier.1.weight'].shape[0]
         if old_num_classes != NUM_CLASSES:
-            print(f"⚠️  Expanding model from {old_num_classes} to {NUM_CLASSES} classes")
+            print(f" Expanding model from {old_num_classes} to {NUM_CLASSES} classes")
             
             # Load the model first to get the new classifier structure
             # Temporarily remove classifier weights to load backbone
@@ -88,19 +88,19 @@ try:
                 new_bias[:old_num_classes] = old_classifier_bias
                 
                 # New class(es) remain randomly initialized (this is fine)
-                print(f"   ✅ Preserved classifier weights for classes 0-{old_num_classes-1}")
-                print(f"   ✅ New class(es) {old_num_classes}-{NUM_CLASSES-1} randomly initialized")
+                print(f"  Preserved classifier weights for classes 0-{old_num_classes-1}")
+                print(f"  New class(es) {old_num_classes}-{NUM_CLASSES-1} randomly initialized")
         else:
             # Same number of classes, load normally
             model.load_state_dict(old_state, strict=False)
-            print(f"✅ Loaded existing model with {NUM_CLASSES} classes")
+            print(f"Loaded existing model with {NUM_CLASSES} classes")
     else:
         model.load_state_dict(old_state, strict=False)
-        print(f"✅ Loaded existing model")
+        print(f"Loaded existing model")
 except FileNotFoundError:
-    print(f"⚠️  No existing model found - starting from scratch")
+    print(f"No existing model found - starting from scratch")
 except Exception as e:
-    print(f"⚠️  Error loading model: {e}")
+    print(f"Error loading model: {e}")
     print(f"   Starting from scratch")
 
 model = model.to(device)
