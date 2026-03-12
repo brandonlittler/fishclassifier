@@ -8,7 +8,7 @@ ACR_NAME="${ACR_NAME:-fishclassifieracr01}"
 IMAGE="${ACR_NAME}.azurecr.io/fish-classifier:latest"
 
 if [ ! -f "fish_classifier.pth" ]; then
-  echo "⚠️  fish_classifier.pth not found. Creating placeholder so image builds; app will use randomly initialized weights."
+  echo "  fish_classifier.pth not found. Creating placeholder so image builds; app will use randomly initialized weights."
   touch fish_classifier.pth
 fi
 
