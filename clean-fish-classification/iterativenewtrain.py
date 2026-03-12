@@ -13,14 +13,14 @@ MODEL_PATH = "fish_classifier.pth"
 BATCH_SIZE = 32
 NUM_CLASSES = 23
 LEARNING_RATE = 1e-4  
-NUM_EPOCHS = 1
+NUM_EPOCHS = 10
 IMG_SIZE = 128
 
 # Need to be able to train on the new folder, have to specify it for now...  
 # then we need to work out which number of classes it is, so we can set the NUM_CLASSES variable. 
 # splits to fish && 24, then we take the 1st index which is the 2nd part == 24
 # so then int(24) == 24, this is the number of classes. 
-NEW_FISH_FOLDER = "fish_24"
+NEW_FISH_FOLDER = "fish_25"
 NUM_CLASSES = int(NEW_FISH_FOLDER.split("_")[1])
 
 
@@ -63,18 +63,40 @@ model = FishClassifier(num_classes=NUM_CLASSES)
 #  4 The new classifier will start random and learn during training, instead of being initialized with the old weights. 
 try:
     old_state = torch.load(MODEL_PATH, map_location=device)
-    # Remove classifier weights if size doesn't match (for class expansion)
+    # Handle class expansion properly - preserve old weights for existing classes
     if 'backbone.classifier.1.weight' in old_state:
         old_num_classes = old_state['backbone.classifier.1.weight'].shape[0]
         if old_num_classes != NUM_CLASSES:
-            # Remove classifier weights so they don't cause size mismatch
-            del old_state['backbone.classifier.1.weight']
-            del old_state['backbone.classifier.1.bias']
             print(f"⚠️  Expanding model from {old_num_classes} to {NUM_CLASSES} classes")
-            print(f"   (Classifier will be randomly initialized for new classes)")
-    
-    model.load_state_dict(old_state, strict=False)
-    print(f"✅ Loaded existing model, expanded to {NUM_CLASSES} classes")
+            
+            # Load the model first to get the new classifier structure
+            # Temporarily remove classifier weights to load backbone
+            temp_state = old_state.copy()
+            old_classifier_weight = temp_state.pop('backbone.classifier.1.weight')
+            old_classifier_bias = temp_state.pop('backbone.classifier.1.bias')
+            
+            # Load backbone weights
+            model.load_state_dict(temp_state, strict=False)
+            
+            # Now copy old classifier weights to new classifier (preserving old classes)
+            with torch.no_grad():
+                new_weight = model.backbone.classifier[1].weight.data
+                new_bias = model.backbone.classifier[1].bias.data
+                
+                # Copy old weights for existing classes (0 to old_num_classes-1)
+                new_weight[:old_num_classes] = old_classifier_weight
+                new_bias[:old_num_classes] = old_classifier_bias
+                
+                # New class(es) remain randomly initialized (this is fine)
+                print(f"   ✅ Preserved classifier weights for classes 0-{old_num_classes-1}")
+                print(f"   ✅ New class(es) {old_num_classes}-{NUM_CLASSES-1} randomly initialized")
+        else:
+            # Same number of classes, load normally
+            model.load_state_dict(old_state, strict=False)
+            print(f"✅ Loaded existing model with {NUM_CLASSES} classes")
+    else:
+        model.load_state_dict(old_state, strict=False)
+        print(f"✅ Loaded existing model")
 except FileNotFoundError:
     print(f"⚠️  No existing model found - starting from scratch")
 except Exception as e:
