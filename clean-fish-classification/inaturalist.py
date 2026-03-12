@@ -4,7 +4,7 @@ from pathlib import Path
 import requests
 
 # 
-iNaturalistURL = "https://www.inaturalist.org/taxa/136345-Amphiprion-clarkii"
+iNaturalistURL = "https://www.inaturalist.org/taxa/123392-Balistoides-viridescens"
 
 
 save_dir = Path("downloads")
@@ -82,7 +82,7 @@ print(f"\nDone. Downloaded {downloaded} images into: {taxon_folder}")
 
 # move files from downloads/taxon_XXXX/ to fish_image/fish_XXXX/
 source_dir = Path("downloads")
-target_dir = Path("fish_image/fish_24")  # Or whatever fish class number
+target_dir = Path("fish_image/fish_25")  # Or whatever fish class number
 target_dir.mkdir(parents=True, exist_ok=True)
 
 for png_file in source_dir.glob("fish_*.png"):
