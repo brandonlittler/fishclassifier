@@ -1,6 +1,5 @@
 set -e
 
-# Set these in your environment (or .env) - do not commit real values
 SUBSCRIPTION_ID="${SUBSCRIPTION_ID:?Set SUBSCRIPTION_ID}"
 ACR_NAME="${ACR_NAME:?Set ACR_NAME}"
 RESOURCE_GROUP="${RESOURCE_GROUP:?Set RESOURCE_GROUP}"

@@ -4,7 +4,6 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-# Set in environment or leave default for local dev (do not commit real ACR name if private)
 ACR_NAME="${ACR_NAME:-fishclassifieracr01}"
 IMAGE="${ACR_NAME}.azurecr.io/fish-classifier:latest"
 
@@ -25,7 +24,6 @@ docker push "$IMAGE"
 echo "Deploying to Kubernetes..."
 (cd kubernetes && ./deploy.sh)
 
-# Kill any existing port-forward on 8765, then start a new one in the background
 pkill -f "port-forward.*8765:7860" 2>/dev/null || true
 sleep 1
 echo "Starting port-forward (localhost:8765 -> service:7860)..."

@@ -19,7 +19,6 @@ spec:
       - name: acr-secret
       containers:
       - name: fish-classifier
-        # Set image to your registry, e.g. <your-acr>.azurecr.io/fish-classifier:latest
         image: fishclassifieracr01.azurecr.io/fish-classifier:latest
         imagePullPolicy: Always
         ports:
